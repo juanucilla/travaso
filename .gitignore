@@ -1,5 +1,0 @@
-rust/target/
-rust/build.out
-rust/build.err
-__pycache__/
-*.pyc
