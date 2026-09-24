@@ -17,6 +17,11 @@ L'MCP `travaso` contiene un **serbatoio** di fatti sull'utente, venuti da un'alt
    - Se un fatto non merita di essere salvato (è vecchio o irrilevante), assorbilo comunque, così il serbatoio si svuota, e dillo all'utente.
 5. Alla fine riferisci in una riga quanti fatti hai travasato e che il serbatoio è vuoto (`serbatoio_percento: 0`).
 
+## Memoria condivisa (strumenti memoria_*)
+Se il server espone `memoria_*`, c'è anche una memoria comune ad altre IA, che non si svuota mai. Ogni fatto porta la sua fonte.
+- Prima di rispondere su utente e progetti usa `memoria_cerca`, rilanciando finché `exhausted_for_query` è true. Filtra con `fonti` o `escludi_mie` per leggere cosa hanno scritto le altre IA.
+- Salva con `memoria_ricorda` i fatti nuovi e durevoli. Per correggere usa `memoria_correggi`, non un doppione.
+
 ## Regole
 - Non salvare mai password, token, chiavi o numeri di carta. Travaso rifiuta all'importazione i file che li contengono.
 - Non assorbire fatti che non hai davvero salvato: se il salvataggio fallisce, lasciali nel serbatoio.

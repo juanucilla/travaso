@@ -10,8 +10,52 @@ Il nome viene dal travaso del vino: si versa da una botte all'altra finché la p
 | **2. Scarica** | Ogni consultazione consegna solo fatti nuovi. Quando l'IA li ha salvati nella propria memoria chiama `travaso_assorbi` e i fatti escono dal serbatoio. |
 | **3. Svuota** | Quando ogni fatto è stato assorbito il serbatoio arriva a 0%: il travaso è finito. L'archivio resta consultabile e ripristinabile. |
 
+## Memoria condivisa tra più IA (dalla 1.1)
+Oltre al serbatoio che si svuota c'è un **pozzo comune**, `condivisa.jsonl`, che **non si svuota mai**. Più IA lo leggono e ci scrivono, e ogni fatto porta la sua fonte.
+
+Esempio reale:
+- **Claude** si svuota: il suo serbatoio viene versato nella condivisa (fonte `claude`), mentre l'originale resta in archivio.
+- **Codex** (modalità `completa`) lavora sui fatti di Claude e di Cursor e scrive con fonte `codex`.
+- **Cursor** (modalità `condivisa`) lavora sui fatti di Claude e di Codex e scrive con fonte `cursor`. Non ha gli strumenti del travaso, quindi non si svuota mai.
+
+Tutti puntano alla stessa cartella, `TRAVASO_DIR` (predefinita `~/.travaso`): è così che ogni IA sa in anticipo dove sta la memoria. Le scritture sono protette da un lock tra processi, quindi due IA possono scrivere insieme senza pestarsi i piedi.
+
+| Tool | Cosa fa |
+|---|---|
+| `memoria_stato` | Quanti fatti ci sono, per fonte, e chi sei tu |
+| `memoria_cerca` | Ricerca con filtro per fonte (`fonti`, `escludi_mie`) che consegna solo fatti non ancora letti |
+| `memoria_elenco` | Elenco per argomento o per fonte |
+| `memoria_ricorda` | Aggiunge un fatto, senza doppioni e rifiutando i segreti |
+| `memoria_correggi` / `memoria_dimentica` | Modificano o tolgono un fatto; il registro conserva la storia |
+
+**Cursor**: in `~/.cursor/mcp.json`
+```json
+{ "mcpServers": { "travaso": { "command": "python", "args": ["/percorso/travaso.py"],
+  "env": { "TRAVASO_CLIENT": "cursor", "TRAVASO_MODALITA": "condivisa" } } } }
+```
+**Codex**: in `~/.codex/config.toml`
+```toml
+[mcp_servers.travaso]
+command = "python"
+args = ["/percorso/travaso.py"]
+[mcp_servers.travaso.env]
+TRAVASO_CLIENT = "codex"
+TRAVASO_MODALITA = "completa"
+```
+Per versare tutto il serbatoio nella condivisa senza passare da un'IA: `python travaso.py --versa-tutto`.
+
 ## Perché un MCP e non una skill
 MCP (Model Context Protocol) è lo standard aperto supportato da ChatGPT (Codex e connettori in modalità sviluppatore), Claude (Desktop e Code), Cursor, Gemini CLI, VS Code/Copilot e molti altri. Una skill è un file di istruzioni che non tutti i client leggono. Per questo Travaso è **un MCP**. `skill/SKILL.md` è il manuale d'uso facoltativo per i client che supportano le skill (Codex, Claude).
+
+## Versione Rust (consigliata)
+In `rust/` c'è la riscrittura in Rust: stesso formato dati, stessi strumenti e stesso comportamento, verificati dagli stessi test. È un unico eseguibile di circa 2,5 MB, senza Python, e risponde in circa 40 ms contro i 130 della versione Python.
+
+```bash
+cd rust && cargo build --release        # → rust/target/release/travaso(.exe)
+TRAVASO_BIN=rust/target/release/travaso python tests/test_travaso.py
+TRAVASO_BIN=rust/target/release/travaso python tests/test_condivisa.py
+```
+Nei client basta usare l'eseguibile come `command`, con `args` vuoti. Per Windows c'è anche l'eseguibile già compilato nella release su GitHub.
 
 ## Installazione
 Serve solo Python 3.9 o superiore, senza dipendenze.

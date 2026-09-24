@@ -10,19 +10,21 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SERVER = ROOT / "travaso.py"
 EXAMPLES = ROOT / "examples" / "memoria"
+# TRAVASO_BIN=percorso/del/binario Rust per testare la versione Rust con gli stessi test
+CMD = [os.environ["TRAVASO_BIN"]] if os.environ.get("TRAVASO_BIN") else [sys.executable, str(SERVER)]
 
 
 def main() -> None:
     tmp = Path(tempfile.mkdtemp(prefix="travaso-test-"))
     try:
         env = dict(os.environ, TRAVASO_DIR=str(tmp))
-        r = subprocess.run([sys.executable, str(SERVER), "--importa", str(EXAMPLES)], env=env,
+        r = subprocess.run(CMD + ["--importa", str(EXAMPLES)], env=env,
                            capture_output=True, encoding="utf-8")
         imported = json.loads(r.stdout)
         assert imported["file_importati"] == 2, imported
         total = imported["fatti"]
 
-        p = subprocess.Popen([sys.executable, str(SERVER)], stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+        p = subprocess.Popen(CMD, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
                              encoding="utf-8", env=env)
         n = 0
 
@@ -38,7 +40,7 @@ def main() -> None:
             return json.loads(res["content"][0]["text"])
 
         assert call("initialize")["result"]["serverInfo"]["name"] == "travaso"
-        assert len(call("tools/list")["result"]["tools"]) == 6
+        assert len(call("tools/list")["result"]["tools"]) == 12  # 6 travaso + 6 memoria condivisa
 
         # 2. SCARICA: consultare consegna fatti nuovi; assorbirli li toglie dal serbatoio
         s = tool("travaso_cerca", query="naufragar mare")
