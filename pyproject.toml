@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "travaso"
+version = "1.0.0"
+description = "MCP server che travasa una memoria da un'IA all'altra: conserva, scarica, svuota."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.9"
+authors = [{ name = "Giovanni Natella" }]
+keywords = ["mcp", "memory", "chatgpt", "claude", "codex", "model-context-protocol"]
+
+[project.scripts]
+travaso = "travaso:main"
+
+[tool.setuptools]
+py-modules = ["travaso"]

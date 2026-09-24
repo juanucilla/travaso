@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Travaso — la memoria passa da un'IA all'altra</title>
+<meta name="description" content="Travaso è un server MCP gratuito e open source che travasa la memoria da un'intelligenza artificiale all'altra: conserva, scarica, svuota.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Inter:wght@400;600&family=Noto+Sans+Thai:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#1a0f14;--bg2:#241419;--card:#2e1a20;--ink:#f6ece4;--muted:#c9b3a8;--wine:#9e1b3b;--wine2:#c73a5c;--gold:#e6b450;--line:#4a2b33}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 Inter,system-ui,sans-serif}
+a{color:var(--gold)}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+header{padding:28px 0 8px}
+.brand{font:800 22px Fraunces,serif;letter-spacing:.5px;display:flex;align-items:center;gap:10px}
+.hero{padding:48px 0 32px;display:grid;grid-template-columns:1.1fr .9fr;gap:36px;align-items:center}
+h1{font:800 clamp(38px,6vw,64px)/1.05 Fraunces,serif;margin:0 0 16px}
+h1 em{color:var(--wine2);font-style:normal}
+h2{font:800 clamp(28px,4vw,38px)/1.15 Fraunces,serif;margin:0 0 18px}
+.lead{color:var(--muted);font-size:19px;max-width:34em}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+.btn{display:inline-block;padding:14px 22px;border-radius:12px;font-weight:600;text-decoration:none}
+.btn.primary{background:var(--wine);color:#fff}.btn.primary:hover{background:var(--wine2)}
+.btn.ghost{border:1px solid var(--line);color:var(--ink)}.btn.ghost:hover{border-color:var(--gold)}
+section{padding:56px 0;border-top:1px solid var(--line)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.step{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px}
+.step .n{font:800 44px Fraunces,serif;color:var(--gold);line-height:1}
+.step h3{font:800 24px Fraunces,serif;margin:6px 0 8px}
+.step p{margin:0;color:var(--muted)}
+.why{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.box{background:var(--bg2);border:1px solid var(--line);border-radius:16px;padding:20px}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.tab{background:transparent;color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:9px 16px;font:600 15px Inter;cursor:pointer}
+.tab[aria-selected=true]{background:var(--wine);border-color:var(--wine)}
+.poem{display:none;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px 28px}
+.poem.on{display:grid;grid-template-columns:220px 1fr;gap:26px;align-items:start}
+.poem .verse{font:600 19px/1.75 Fraunces,serif;white-space:pre-line}
+.poem .verse.th{font-family:"Noto Sans Thai",Inter,sans-serif;font-weight:600}
+.poem .note{color:var(--muted);font-size:15px;margin-top:14px;white-space:pre-line}
+.poem .badge{font-size:13px;color:var(--gold);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px}
+pre{background:#12090d;border:1px solid var(--line);border-radius:12px;padding:16px;overflow:auto;font-size:14px;color:#f3d9c9}
+table{width:100%;border-collapse:collapse;font-size:15px}td,th{border-bottom:1px solid var(--line);padding:9px 6px;text-align:left}th{color:var(--gold)}
+footer{padding:36px 0 48px;color:var(--muted);font-size:14px;border-top:1px solid var(--line)}
+svg text{font-family:Inter,sans-serif}
+@media (max-width:820px){.hero,.why{grid-template-columns:1fr}.steps{grid-template-columns:1fr}.poem.on{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="wrap"><div class="brand">
+<svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><ellipse cx="16" cy="16" rx="12" ry="14" fill="#9e1b3b"/><path d="M5 10h22M4 16h24M5 22h22" stroke="#e6b450" stroke-width="2"/></svg>
+Travaso</div></header>
+
+<main>
+<div class="wrap hero">
+  <div>
+    <h1>La memoria passa <em>da un'IA all'altra</em>, fino all'ultima goccia.</h1>
+    <p class="lead">Travaso è un server MCP gratuito e open source. Prende la memoria che un'intelligenza artificiale ha di te, per esempio Claude, e la versa in un'altra, per esempio ChatGPT, un fatto alla volta. L'originale resta conservato.</p>
+    <div class="cta">
+      <a class="btn primary" href="https://github.com/juanucilla/travaso/archive/refs/heads/main.zip">Scarica Travaso (.zip)</a>
+      <a class="btn ghost" href="https://github.com/juanucilla/travaso">Codice su GitHub</a>
+    </div>
+  </div>
+  <!-- Infografica 1: le due botti -->
+  <svg viewBox="0 0 420 300" role="img" aria-label="Infografica: la botte Claude si svuota nella botte ChatGPT, l'archivio resta">
+    <defs><linearGradient id="w" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c73a5c"/><stop offset="1" stop-color="#6d1028"/></linearGradient></defs>
+    <g transform="translate(20,40)">
+      <ellipse cx="70" cy="95" rx="66" ry="84" fill="#3a2127" stroke="#e6b450" stroke-width="3"/>
+      <clipPath id="c1"><ellipse cx="70" cy="95" rx="63" ry="81"/></clipPath>
+      <rect x="0" y="120" width="140" height="80" fill="url(#w)" clip-path="url(#c1)"/>
+      <path d="M8 55h124M4 95h132M8 135h124" stroke="#e6b450" stroke-width="2" opacity=".6"/>
+      <text x="70" y="206" text-anchor="middle" fill="#f6ece4" font-size="15" font-weight="600">Claude · 23%</text>
+    </g>
+    <path d="M150 105 C 200 60, 230 60, 262 110" stroke="#c73a5c" stroke-width="10" fill="none" stroke-linecap="round"/>
+    <circle cx="222" cy="78" r="5" fill="#e6b450"/><circle cx="244" cy="92" r="4" fill="#e6b450"/>
+    <g transform="translate(260,40)">
+      <ellipse cx="70" cy="95" rx="66" ry="84" fill="#3a2127" stroke="#e6b450" stroke-width="3"/>
+      <clipPath id="c2"><ellipse cx="70" cy="95" rx="63" ry="81"/></clipPath>
+      <rect x="0" y="50" width="140" height="150" fill="url(#w)" clip-path="url(#c2)"/>
+      <path d="M8 55h124M4 95h132M8 135h124" stroke="#e6b450" stroke-width="2" opacity=".6"/>
+      <text x="70" y="206" text-anchor="middle" fill="#f6ece4" font-size="15" font-weight="600">ChatGPT · 77%</text>
+    </g>
+    <g transform="translate(150,255)"><rect width="120" height="34" rx="8" fill="#241419" stroke="#e6b450"/><text x="60" y="22" text-anchor="middle" fill="#e6b450" font-size="13" font-weight="600">archivio 100% intatto</text></g>
+  </svg>
+</div>
+
+<section id="come"><div class="wrap">
+  <h2>Tre gesti, come in cantina</h2>
+  <div class="steps">
+    <div class="step"><div class="n">1</div><h3>Conserva</h3><p>Al primo avvio Travaso fotografa la memoria in un <b>archivio</b> che non cambia mai. Qualunque cosa succeda, l'originale c'è.</p></div>
+    <div class="step"><div class="n">2</div><h3>Scarica</h3><p>L'IA consulta la memoria e riceve solo fatti <b>nuovi</b>. Quando li ha salvati nella propria memoria, li conferma, e quei fatti escono dal serbatoio.</p></div>
+    <div class="step"><div class="n">3</div><h3>Svuota</h3><p>Si va avanti finché il serbatoio arriva a <b>0%</b>. Il travaso è finito: tutto è passato nell'altra IA, e l'archivio resta consultabile e ripristinabile.</p></div>
+  </div>
+</div></section>
+
+<section id="rime"><div class="wrap">
+  <h2>Spiegato in rima, in cinque lingue</h2>
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" aria-selected="true" data-p="pirata">🏴‍☠️ Pirata medievale</button>
+    <button class="tab" role="tab" aria-selected="false" data-p="napoli">Napoletano</button>
+    <button class="tab" role="tab" aria-selected="false" data-p="calabria">Calabrese</button>
+    <button class="tab" role="tab" aria-selected="false" data-p="thai">ภาษาไทย</button>
+    <button class="tab" role="tab" aria-selected="false" data-p="navajo">Diné bizaad (navajo)</button>
+  </div>
+
+  <article class="poem on" id="pirata">
+    <svg viewBox="0 0 200 200" aria-hidden="true"><circle cx="100" cy="100" r="92" fill="#241419" stroke="#e6b450" stroke-width="3"/><path d="M40 120h120l-18 34H58z" fill="#6d1028"/><path d="M100 40v80M100 44l46 40h-46zM100 50l-38 34h38z" fill="#f6ece4" stroke="#f6ece4"/><circle cx="130" cy="140" r="6" fill="#e6b450"/></svg>
+    <div><div class="badge">Pirata medievale · rime alternate</div>
+<div class="verse">Oh ciurma mia, udite 'sto sermone:
+nel forziere di Claude sta 'l tesoro,
+ma pria d'arrembar, per buona ragione,
+se ne fa copia, e l'archivio vale oro.
+
+Poi ChatGPT domanda, e all'arrembaggio
+ogni fatto trasloca nella stiva;
+chi lo salva lo assorbe, e buon viaggio:
+dal forzier se ne va, lasciando riva.
+
+E quando il forzier è vuoto fino al fondo,
+issate le vele, il travaso è compiuto!
+Ma l'archivio è là, fedele e tondo:
+per Nettuno, niente va perduto. Arrr!</div>
+<div class="note">Conserva (la copia), scarica (l'arrembaggio), svuota (il forziere vuoto).</div></div>
+  </article>
+
+  <article class="poem" id="napoli">
+    <svg viewBox="0 0 200 200" aria-hidden="true"><circle cx="100" cy="100" r="92" fill="#241419" stroke="#e6b450" stroke-width="3"/><path d="M30 150 L95 60 L120 95 L135 80 L170 150z" fill="#6d1028"/><path d="M95 60c4-18 16-26 26-30" stroke="#c9b3a8" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M20 160h160" stroke="#e6b450" stroke-width="4"/></svg>
+    <div><div class="badge">Napoletano · rime alternate e baciate</div>
+<div class="verse">Primma cosa: se fa 'na copia fina,
+dint' a ll'archivio, e llà resta pe' sempe;
+nun se tocca, nun se sposta, è 'na reggina,
+e nisciuno 'a cancella, manco cu 'e tiempe.
+
+Po' ChatGPT addimanna, fatto pe' fatto,
+e ogne fatto ca s'astipa dint' 'a capa soja
+esce d' 'o serbatoio, zitto e quatto:
+se scarreca 'a butteglia, e che gioia!
+
+Quanno 'o serbatoio è vacante e asciutto,
+'o travaso è fernuto, s'è passato tutto;
+ma ll'archivio resta, fermo comme 'a luna:
+'a memoria nun se perde, manco una.</div>
+<div class="note">astipà = conservare, mettere da parte · scarrecà = scaricare · vacante = vuoto</div></div>
+  </article>
+
+  <article class="poem" id="calabria">
+    <svg viewBox="0 0 200 200" aria-hidden="true"><circle cx="100" cy="100" r="92" fill="#241419" stroke="#e6b450" stroke-width="3"/><circle cx="100" cy="92" r="30" fill="#c73a5c"/><path d="M100 62c-6-14 2-24 14-28" stroke="#6fae5a" stroke-width="6" fill="none" stroke-linecap="round"/><path d="M40 150c30-20 90-20 120 0" stroke="#e6b450" stroke-width="4" fill="none"/></svg>
+    <div><div class="badge">Calabrese · rime alternate</div>
+<div class="verse">Prima 'i tuttu si faci 'na copia bona,
+'nta l'archiviu resta, 'un si tocca cchiù;
+comu l'ogghiu 'i l'annata, 'un s'abbanduna,
+e 'un c'è nuddu chi s'a porta, mancu tu.
+
+Poi ChatGPT spija, e fattu pe' fattu
+si li stipa 'nta la menti, cuntentu;
+e ogni fattu stipatu, 'nta nu trattu,
+nesci d'u serbatoiu, comu u ventu.
+
+Quandu u serbatoiu è vacanti e siccu,
+u travasu è finutu, 'un c'è cchiù nenti;
+ma l'archiviu resta, ricchu ricchu:
+a memoria 'un si perdi, stati attenti!</div>
+<div class="note">spijà = domandare · stipà = conservare · 'nta nu trattu = in un attimo · siccu = asciutto</div></div>
+  </article>
+
+  <article class="poem" id="thai">
+    <svg viewBox="0 0 200 200" aria-hidden="true"><circle cx="100" cy="100" r="92" fill="#241419" stroke="#e6b450" stroke-width="3"/><path d="M100 34l24 50H76z" fill="#e6b450"/><rect x="66" y="84" width="68" height="60" fill="#6d1028"/><path d="M52 144h96l8 16H44z" fill="#c73a5c"/></svg>
+    <div><div class="badge">ภาษาไทย · สัมผัสสระ "ไอ" (rima in -ai)</div>
+<div class="verse th">หนึ่ง เก็บความจำลงคลังให้มั่นใจ
+สำเนาต้นฉบับอยู่ ไม่หายไป
+
+สอง ถามทีละเรื่องแล้วส่งต่อให้
+ChatGPT จดจำไว้ในใจ
+
+สาม ถังค่อย ๆ ว่างลงเรื่อยไป
+จนหมดเกลี้ยง แต่คลังยังอยู่ไม่ไปไหน</div>
+<div class="note">Uno: si conserva la memoria nell'archivio, la copia originale non sparisce.
+Due: si chiede un fatto alla volta e lo si passa a ChatGPT, che lo ricorda.
+Tre: il serbatoio si svuota piano piano, fino all'ultimo, ma l'archivio resta dov'è.</div></div>
+  </article>
+
+  <article class="poem" id="navajo">
+    <svg viewBox="0 0 200 200" aria-hidden="true"><circle cx="100" cy="100" r="92" fill="#241419" stroke="#e6b450" stroke-width="3"/><path d="M40 150h120L130 70l-18 30-12-40-14 44-16-24z" fill="#c73a5c"/><path d="M60 50l8 8M150 46l-8 8M100 30v10" stroke="#e6b450" stroke-width="4" stroke-linecap="round"/></svg>
+    <div><div class="badge">Diné bizaad (navajo): la lingua più aspirata</div>
+<div class="verse">Hózhǫ́ǫ́go naasháa doo,
+tʼáá íídą́ą́ʼ shił bééhózin — hózhǫ́ǫ́go.
+Tʼáá ałtso náhásdlį́į́ʼ,
+hózhǫ́ náhásdlį́į́ʼ.</div>
+<div class="note">«Che io cammini nell'armonia; già lo so: nell'armonia. Tutto è tornato a posto, l'armonia è ristabilita.» È il gesto finale del travaso, quando tutto è passato e l'archivio resta.
+
+Perché il navajo: la sua aspirazione è tra le più lunghe misurate. Nelle occlusive aspirate il ritardo prima che partano le corde vocali (VOT) è circa il doppio di quello della maggior parte delle lingue non atabaske. La rima qui è quella del canto navajo, fatta di ritornelli che si ripetono, costruita su formule tradizionali: «hózhǫ́ náhásdlį́į́ʼ» chiude i canti della Via della Notte. Testo breve, da far rivedere a un parlante diné.</div></div>
+  </article>
+</div></section>
+
+<section id="perche"><div class="wrap why">
+  <div class="box"><h3>Perché un MCP e non una skill</h3><p>MCP (Model Context Protocol) è lo standard aperto per collegare strumenti alle IA. Lo supportano ChatGPT (Codex e connettori), Claude, Cursor, Gemini CLI, VS Code e altri. Una skill la leggono solo alcuni client. Travaso è quindi <b>un MCP</b>, con una skill facoltativa come manuale d'uso.</p></div>
+  <div class="box"><h3>Privato per costruzione</h3><p>Gira sul tuo computer, non ha dipendenze e non manda dati da nessuna parte. Rifiuta i file che sembrano contenere password o chiavi.</p></div>
+</div></section>
+
+<section id="installa"><div class="wrap">
+  <h2>Installa in un minuto</h2>
+<pre>git clone https://github.com/juanucilla/travaso && cd travaso
+python travaso.py --importa examples/memoria
+python tests/test_travaso.py          # TUTTI I TEST OK
+
+# Codex / ChatGPT desktop — ~/.codex/config.toml
+[mcp_servers.travaso]
+command = "python"
+args = ["/percorso/travaso/travaso.py"]
+
+# Claude Code
+claude mcp add travaso -- python /percorso/travaso/travaso.py</pre>
+  <table>
+    <tr><th>Strumento</th><th>Cosa fa</th></tr>
+    <tr><td>travaso_stato</td><td>livello del serbatoio in %</td></tr>
+    <tr><td>travaso_cerca / travaso_prossimi</td><td>consegnano solo fatti nuovi</td></tr>
+    <tr><td>travaso_assorbi</td><td>conferma e toglie i fatti dal serbatoio</td></tr>
+    <tr><td>travaso_archivio</td><td>cerca nell'originale, che non si svuota mai</td></tr>
+    <tr><td>travaso_ripristina</td><td>riempie di nuovo il serbatoio</td></tr>
+  </table>
+  <p>Esempi inclusi, di pubblico dominio: <i>L'infinito</i> di Leopardi e le 8 note iniziali del basso dell'Aria delle Variazioni Goldberg di Bach, in hertz con LA a 440 e a 432.</p>
+</div></section>
+</main>
+
+<footer class="wrap">Travaso · licenza MIT · di Giovanni Natella · <a href="https://github.com/juanucilla/travaso">github.com/juanucilla/travaso</a></footer>
+
+<script>
+document.querySelectorAll('.tab').forEach(function(b){b.addEventListener('click',function(){
+  document.querySelectorAll('.tab').forEach(function(x){x.setAttribute('aria-selected','false')});
+  document.querySelectorAll('.poem').forEach(function(p){p.classList.remove('on')});
+  b.setAttribute('aria-selected','true');document.getElementById(b.dataset.p).classList.add('on');
+})});
+</script>
+</body>
+</html>
